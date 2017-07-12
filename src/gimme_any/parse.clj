@@ -1,7 +1,15 @@
 (ns gimme-any.parse)
 
-(defn parse-google
-  [response]
-  (->> response 
-    (re-seq #"data-href=\"([^\"]*)\"")
-	(map second)))
+(defn- parse-fn
+  [regex]
+  (fn [response]
+    (->> response
+	  (re-seq regex)
+	  (map second))))
+
+(def parse-google 
+  (parse-fn #"data-href=\"([^\"]+)\""))
+
+(def parse-bing
+  (parse-fn #"<h2>\s*<a href=\"([^\"]+)\" h="))
+
