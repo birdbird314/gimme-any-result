@@ -1,11 +1,5 @@
 (ns gimme-any.query)
 
-;(defn google-query
-;  [query]
-;  (if (empty? query)
-;    ""
-;	(str "https://www.google.pl/search?q=" query)))
-
 (defn- get-val-or-empty-string
   [wrapped-value]
   (nth wrapped-value 0 "")) 
@@ -24,4 +18,7 @@
 
 (def bing-query
   (query-fn "https://www.bing.com/search?q="))
+
+(def yahoo-query
+  (query-fn "https://search.yahoo.com/search;?p="))
 

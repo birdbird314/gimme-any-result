@@ -88,3 +88,50 @@ NOISE ()*)*()*(&*
   (testing "Should ignore empty url's"
     (is (empty? (parse-bing bing-resp-with-empty-url)))))	
 
+(def yahoo-resp-with-one-res 
+"<html>
+<h3 NOISE>
+  <a NOISE href=\"someUrl\" NOISE>
+    NOISE <>>KLJSDF)(*&*(&
+  </a>
+</h3>
+</html>")
+
+(def yahoo-resp-with-empty-url 
+"<html>
+<h3 NOISE>
+  <a NOISE href=\"\" NOISE>
+    NOISE <>>KLJSDF)(*&*(&
+  </a>
+</h3>
+</html>")
+
+(def yahoo-resp-with-multiple-res 
+"<html>
+<h3 NOISE>
+  <a NOISE href=\"someUrl1\" NOISE>
+    NOISE <>>KLJSDF)(*&*(&
+  </a>
+</h3>
+NOISE ()*)*()*(&*
+<h3 NOISE>
+  <a NOISE href=\"someUrl2\" NOISE>
+    NOISE <>>KLJSDF)(*&*(&
+  </a>
+</h3>
+</html>")
+
+
+(deftest parse-yahoo-test
+  (testing "Should return empty seq for empty input"
+    (is (empty? (parse-yahoo ""))))
+	
+  (testing "Should parse response with one result"
+    (is (= '("someUrl") (parse-yahoo yahoo-resp-with-one-res))))
+	
+  (testing "Should parse response with multiple results"
+    (is (= '("someUrl1" "someUrl2") (parse-yahoo yahoo-resp-with-multiple-res))))
+	
+  (testing "Should ignore empty url's"
+    (is (empty? (parse-yahoo yahoo-resp-with-empty-url)))))	
+

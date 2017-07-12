@@ -15,3 +15,10 @@
 	
   (testing "Should create bing query"
     (is (= "https://www.bing.com/search?q=foo" (bing-query "foo")))))
+
+(deftest yahoo-query-test
+  (testing "Should return empty string for empty string"
+    (is (empty? (yahoo-query ""))))
+	
+  (testing "Should create yahoo query"
+    (is (= "https://search.yahoo.com/search;?p=foo" (yahoo-query "foo")))))
