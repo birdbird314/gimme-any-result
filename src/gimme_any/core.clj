@@ -2,10 +2,21 @@
   (:require [gimme-any.parse :refer :all]
             [gimme-any.query :refer :all]))
 
+(def result-retrievers
+ [{:source "google" :parser parse-google :query-builder google-query}
+  {:source "bing" :parser parse-bing :query-builder bing-query}
+  {:source "yahoo" :parser parse-yahoo :query-builder yahoo-query}])
+
+
 (def result-retrievers-functions
-  [[(comp parse-google  slurp google-query) "google"]
-   [(comp parse-bing    slurp bing-query) "bing"]
-   [(comp parse-yahoo   slurp yahoo-query) "yahoo"]])
+  (doall (map 
+    (fn [retriever]
+	  (comp 
+	    #(assoc {:source (:source retriever)} :result %) 
+		(:parser retriever) 
+		slurp 
+		(:query-builder retriever)))
+     result-retrievers)))
 
 (defn gimme-any
   [query]
